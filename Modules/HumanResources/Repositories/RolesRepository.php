@@ -33,13 +33,25 @@ class RolesRepository implements RoleInterface
 
     public function store(array $data) : object
     {
-        return $this->_role->create($data);
+        $role = $this->_role->create($data);
+
+        if (isset($data['permissions'])) {
+            $role->permissions()->sync($data['permissions']);
+        }
+
+        return $role;
     }
 
     public function update(array $data, int $id) : object
     {
         $role = $this->_role->findOrFail($id);
-        return tap($role)->update($data);
+        tap($role)->update($data);
+
+        if (isset($data['permissions'])) {
+            $role->permissions()->sync($data['permissions']);
+        }
+
+        return $role;
     }
 
     public function destroy(int $id) : bool

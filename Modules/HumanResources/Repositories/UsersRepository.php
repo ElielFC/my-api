@@ -47,4 +47,17 @@ class UsersRepository implements UserInterface
         $user = $this->_users->findOrFail($id);
         return $user->delete();
     }
+
+    public function hasPermission(int $permission_id): bool
+    {
+        if ($this->_users->control_permissions_by === 'I') {
+            return !empty($this->_users->permissions->where('id', '=', $permission_id));
+        }
+
+        if ($this->_users->role->status ?? false) {
+            return !empty($this->_users->role->permissions->where('id', '=', $permission_id));
+        }
+
+        return false;
+    }
 }
