@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use Modules\HumanResources\Entities\User;
 use Tests\TestCase;
 
 class AuthJwtTest extends TestCase

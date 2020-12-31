@@ -24,7 +24,3 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => 'auth'], function () {
     Route::post('refresh', 'Api\AuthController@refresh');
     Route::post('me', 'Api\AuthController@me');
 });
-
-Route::group(['middleware' => 'apiJwt', 'prefix' => 'user'], function () {
-    Route::get('/', 'Api\UserController@index');
-});

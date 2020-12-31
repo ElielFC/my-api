@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Modules\HumanResources\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -15,8 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return response()->json(['users' => $users], 200);
+        return response()->json(['users' => []], 200);
     }
 
     /**
