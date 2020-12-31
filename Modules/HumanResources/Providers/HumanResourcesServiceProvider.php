@@ -4,6 +4,10 @@ namespace Modules\HumanResources\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\HumanResources\Contracts\UserInterface;
+use Modules\HumanResources\Entities\User;
+use Modules\HumanResources\Observers\UserObserver;
+use Modules\HumanResources\Repositories\UsersRepository;
 
 class HumanResourcesServiceProvider extends ServiceProvider
 {
@@ -26,6 +30,7 @@ class HumanResourcesServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->registerFactories();
+        $this->registerObservers();
     }
 
     /**
@@ -36,6 +41,7 @@ class HumanResourcesServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(UserInterface::class, UsersRepository::class);
     }
 
     /**
@@ -73,5 +79,14 @@ class HumanResourcesServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+    /**
+     * Get the services observers by the provider.
+     *
+     * @return array
+     */
+    public function registerObservers()
+    {
+        User::observe(UserObserver::class);
     }
 }
