@@ -4,10 +4,16 @@ namespace Modules\HumanResources\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\HumanResources\Contracts\UserInterface;
+use Modules\HumanResources\Contracts\{
+    UserInterface,
+    RoleInterface
+};
 use Modules\HumanResources\Entities\User;
 use Modules\HumanResources\Observers\UserObserver;
-use Modules\HumanResources\Repositories\UsersRepository;
+use Modules\HumanResources\Repositories\{
+    RolesRepository,
+    UsersRepository
+};
 
 class HumanResourcesServiceProvider extends ServiceProvider
 {
@@ -42,6 +48,7 @@ class HumanResourcesServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind(UserInterface::class, UsersRepository::class);
+        $this->app->bind(RoleInterface::class, RolesRepository::class);
     }
 
     /**
