@@ -33,13 +33,25 @@ class UsersRepository implements UserInterface
 
     public function store(array $data) : object
     {
-        return $this->_users->create($data);
+        $user = $this->_users->create($data);
+
+        if (!empty($data['permissions'])) {
+            $user->permissions()->sync($data['permissions']);
+        }
+
+        return $user;
     }
 
     public function update(array $data, int $id) : object
     {
         $user = $this->_users->findOrFail($id);
-        return tap($user)->update($data);
+        $user->update($data);
+
+        if (!empty($data['permissions'])) {
+            $user->permissions()->sync($data['permissions']);
+        }
+
+        return $user;
     }
 
     public function destroy(int $id) : bool
@@ -51,11 +63,11 @@ class UsersRepository implements UserInterface
     public function hasPermission(int $permission_id): bool
     {
         if ($this->_users->control_permissions_by === 'I') {
-            return !empty($this->_users->permissions->where('id', '=', $permission_id));
+            return $this->_users->permissions()->where('id', '=', $permission_id)->exists();
         }
 
         if ($this->_users->role->status ?? false) {
-            return !empty($this->_users->role->permissions->where('id', '=', $permission_id));
+            return $this->_users->role->permissions()->where('id', '=', $permission_id)->exists();
         }
 
         return false;

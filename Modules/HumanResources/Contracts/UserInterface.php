@@ -10,4 +10,5 @@ interface UserInterface
     public function store(array $data) : object;
     public function update(array $data, int $id) : object;
     public function destroy(int $id) : bool;
+    public function hasPermission(int $permission_id) : bool;
 }
