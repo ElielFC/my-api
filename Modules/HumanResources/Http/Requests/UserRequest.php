@@ -17,6 +17,8 @@ class UserRequest extends FormRequest
             'name' => 'required|max:255',
             'email' => 'required|unique:users,email,'.$this->id,
             'password' => 'sometimes|required|confirmed|max:255',
+            'control_permissions_by' => 'required|in:I,G',
+            'role_id' => 'required_if:control_permissions_by,G|nullable|exists:roles,id',
         ];
     }
 
